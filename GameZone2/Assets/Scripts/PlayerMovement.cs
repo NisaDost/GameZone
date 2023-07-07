@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] Rigidbody2D rb;
     private bool isJumping;
+    private bool IsRolling = false;
     private SpriteRenderer spriteRenderer;
 
     void Start()
@@ -46,6 +47,14 @@ public class PlayerMovement : MonoBehaviour
                 Jumping();
             }
         }
+
+
+        if(Input.GetKeyDown(KeyCode.LeftShift) && !IsRolling)
+        {
+            
+            StartRollAnimation();
+            
+        }
         
         #endregion
 
@@ -59,9 +68,10 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.flipX = false;
         }
         #endregion
-        
-    }
 
+
+    }
+    //TRIGGER KULLAN!!!
     private void Idle()
     {
         animator.SetBool("isRunning", false);
@@ -74,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isRunning", true);
         animator.SetBool("isZipzip", false);
         animator.SetBool("isIdle", false);
-        animator.SetBool("isRolling", false);
+        
     }
     private void Jumping()
     {
@@ -83,14 +93,27 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isIdle", false);
         animator.SetBool("isRolling", false);
     }
-    private void Rolling()
-    {
-        animator.SetBool("isRunning", false);
-        animator.SetBool("isZipzip", false);
-        animator.SetBool("isIdle", false);
-        animator.SetBool("isRolling", true);
-    }
+    //private void Rolling()
+    //{
+    //    animator.SetBool("isRunning", false);
+    //    animator.SetBool("isZipzip", false);
+    //    animator.SetBool("isIdle", false);
+    //    animator.SetBool("isRolling", true);
+    //}
 
+    //void StartRollAnimation()
+    //{
+    //    animator.SetBool("isRolling", true);
+    //    IsRolling = true;
+    //    Invoke("EndRollAnimation", -1.5f);
+    //}
+
+    //void EndRollAnimation()
+    //{
+    //    animator.SetBool("isRolling", false);
+    //    IsRolling = false;
+    //}
+    
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))

@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.LeftShift) && !IsRolling)
         {
             
-            StartRollAnimation();
+            //StartRollAnimation();
             
         }
         

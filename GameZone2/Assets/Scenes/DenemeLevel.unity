@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 527903382}
   - component: {fileID: 527903381}
   - component: {fileID: 527903380}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tilemap
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -2786,6 +2786,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4786527724022428, guid: a336d248e942d194382fd682c925b1f9, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2062588915536288788, guid: a336d248e942d194382fd682c925b1f9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2849,6 +2853,10 @@ PrefabInstance:
     - target: {fileID: 2062588915536289001, guid: a336d248e942d194382fd682c925b1f9, type: 3}
       propertyPath: jumpForce
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3959396553862893541, guid: a336d248e942d194382fd682c925b1f9, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5621035781730657362, guid: a336d248e942d194382fd682c925b1f9, type: 3}
       propertyPath: m_RootOrder

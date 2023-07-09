@@ -7,12 +7,16 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
 
     [SerializeField] Rigidbody2D rb;
-    private bool isJumping;
+
+    private GroundCheck groundCheck;
+    bool ZipliyoMu;
     private bool IsRolling = false;
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
+        groundCheck= GetComponent<GroundCheck>();
+        ZipliyoMu = groundCheck.isJumping;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
@@ -24,15 +28,15 @@ public class PlayerMovement : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
 
-        if (moveX != 0 && isJumping == false)
+        if (moveX != 0 && ZipliyoMu == false)
         {
             Running();
         }
-        else if (moveX != 0 && isJumping == true)
+        else if (moveX != 0 && ZipliyoMu == true)
         {
             Jumping();
         }
-        else if(moveX == 0 && isJumping == false)
+        else if(moveX == 0 && ZipliyoMu == false)
         {
             Idle();
         }
@@ -40,10 +44,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W))
         {
-            if (!isJumping)
+            if (!ZipliyoMu)
             {
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                isJumping = true;
+                ZipliyoMu = true;
                 Jumping();
             }
         }
@@ -68,7 +72,6 @@ public class PlayerMovement : MonoBehaviour
             spriteRenderer.flipX = false;
         }
         #endregion
-
 
     }
     //TRIGGER KULLAN!!!
@@ -114,11 +117,4 @@ public class PlayerMovement : MonoBehaviour
     //    IsRolling = false;
     //}
     
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isJumping = false;
-        }
-    }
 }

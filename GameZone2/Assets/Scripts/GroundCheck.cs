@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
 {
-    public bool isJumping = false;
+    private bool isJumping = false;
+    public bool IsJumping => isJumping;
     
-    void Update()
-    {
-        
-    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {

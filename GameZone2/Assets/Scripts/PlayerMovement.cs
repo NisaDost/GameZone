@@ -7,16 +7,14 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
 
     [SerializeField] Rigidbody2D rb;
-
     private GroundCheck groundCheck;
-    bool ZipliyoMu;
+    private bool isJumping = false;
     private bool IsRolling = false;
     private SpriteRenderer spriteRenderer;
 
     void Start()
     {
         groundCheck= GetComponent<GroundCheck>();
-        ZipliyoMu = groundCheck.isJumping;
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
@@ -28,15 +26,15 @@ public class PlayerMovement : MonoBehaviour
         float moveX = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(moveX * moveSpeed, rb.velocity.y);
 
-        if (moveX != 0 && ZipliyoMu == false)
+        if (moveX != 0 && !isJumping)
         {
             Running();
         }
-        else if (moveX != 0 && ZipliyoMu == true)
+        else if (moveX != 0 && isJumping)
         {
             Jumping();
         }
-        else if(moveX == 0 && ZipliyoMu == false)
+        else if(moveX == 0 && !isJumping)
         {
             Idle();
         }
@@ -44,10 +42,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.W))
         {
-            if (!ZipliyoMu)
+            if (!isJumping)
             {
                 rb.AddForce(new Vector2(0f, jumpForce), ForceMode2D.Impulse);
-                ZipliyoMu = true;
+                isJumping = true;
                 Jumping();
             }
         }

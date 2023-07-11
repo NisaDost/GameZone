@@ -9,45 +9,59 @@ public class PlayerMovement : MonoBehaviour {
 
 	public float runSpeed = 40f;
 
+
 	float horizontalMove = 0f;
 	bool jump = false;
-	// bool crouch = false;
 
-	// Update is called once per frame
 	void Update () {
 
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
 		animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
-
-		if (Input.GetButtonDown("Jump"))
+        
+		if (!controller.IsGrounded())
+        {
+            animator.SetBool("IsJumping", true);
+        }
+		else
 		{
-			jump = true;
-			animator.SetBool("IsJumping", true);
+			OnLanding();
 		}
 
-		// if (Input.GetButtonDown("Crouch"))
-		// {
-		// 	crouch = true;
-		// } else if (Input.GetButtonUp("Crouch"))
-		// {
-		// 	crouch = false;
-		// }
-
+        if (Input.GetButtonDown("Jump"))
+		{
+			if(controller.IsGrounded())
+			{
+				animator.SetBool("IsJumping", true);
+				jump = true;
+				Debug.Log("Grounded: " + controller.IsGrounded());
+				if(controller.IsGrounded() == false)
+				{
+					while(controller.IsGrounded() == false) 
+					{ 
+						StopAnimation();
+					}
+				}
+				ResumeAnimation();
+			}
+		}
 	}
-
 	public void OnLanding ()
 	{
 		animator.SetBool("IsJumping", false);
-        jump = false;
 	}
 
-	// public void OnCrouching (bool isCrouching)
-	// {
-	// 	animator.SetBool("IsCrouching", isCrouching);
-	// }
+    public void StopAnimation()
+    {
+        animator.speed = 0f;
+    }
 
-	void FixedUpdate ()
+    public void ResumeAnimation()
+    {
+		animator.speed = 1f;
+    }
+
+    void FixedUpdate ()
 	{
 		// Move our character
 		controller.Move(horizontalMove * Time.fixedDeltaTime, jump);

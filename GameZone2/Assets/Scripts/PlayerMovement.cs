@@ -9,11 +9,10 @@ public class PlayerMovement : MonoBehaviour {
 
 	public float runSpeed = 40f;
 
-
 	float horizontalMove = 0f;
 	bool jump = false;
 
-	void Update () {
+    void Update () {
 
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
@@ -26,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
 		else
 		{
 			OnLanding();
+			ResumeAnimation();
 		}
 
         if (Input.GetButtonDown("Jump"))
@@ -35,35 +35,30 @@ public class PlayerMovement : MonoBehaviour {
 				animator.SetBool("IsJumping", true);
 				jump = true;
 				Debug.Log("Grounded: " + controller.IsGrounded());
-				if(controller.IsGrounded() == false)
+				if (!controller.IsGrounded())
 				{
-					while(controller.IsGrounded() == false) 
-					{ 
-						StopAnimation();
-					}
+					StopAnimation();
 				}
-				ResumeAnimation();
 			}
 		}
 	}
+
 	public void OnLanding ()
 	{
 		animator.SetBool("IsJumping", false);
 	}
 
-    public void StopAnimation()
-    {
-        animator.speed = 0f;
-    }
+	public void StopAnimation()
+	{
+		animator.speed = 0f;
+	}
 
     public void ResumeAnimation()
     {
-		animator.speed = 1f;
+        animator.speed = 1f;
     }
-
     void FixedUpdate ()
 	{
-		// Move our character
 		controller.Move(horizontalMove * Time.fixedDeltaTime, jump);
 		jump = false;
 	}

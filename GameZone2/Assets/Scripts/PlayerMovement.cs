@@ -12,7 +12,9 @@ public class PlayerMovement : MonoBehaviour {
 	float horizontalMove = 0f;
 	bool jump = false;
 
-    void Update () {
+	//public Transform objectToFollow;
+
+	void Update () {
 
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
@@ -41,9 +43,13 @@ public class PlayerMovement : MonoBehaviour {
 				}
 			}
 		}
+
+		//Vector2 targetPosition = new Vector2(objectToFollow.position.x, objectToFollow.position.y);
+		//transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * runSpeed);
+
 	}
 
-	public void OnLanding ()
+    public void OnLanding ()
 	{
 		animator.SetBool("IsJumping", false);
 	}

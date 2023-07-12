@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2650468426261265418}
   - component: {fileID: 2062588915536289002}
   - component: {fileID: 2062588915536289003}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,6 @@ MonoBehaviour:
     m_Bits: 2147483647
   groundCheck: {fileID: 4786527724022428}
   ceilingCheck: {fileID: 3959396553862893541}
-  wallCheck: {fileID: 0}
   crouchDisableCollider: {fileID: 0}
   OnLandEvent:
     m_PersistentCalls:
@@ -164,6 +163,7 @@ MonoBehaviour:
   controller: {fileID: 2062588915536289001}
   animator: {fileID: 2062588915536288789}
   runSpeed: 40
+  objectToFollow: {fileID: 0}
 --- !u!50 &2062588915536289002
 Rigidbody2D:
   serializedVersion: 4
@@ -210,7 +210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3959396553862893541}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4786527724022428}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

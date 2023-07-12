@@ -4830,7 +4830,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 702783145}
+  controller: {fileID: 2047602240}
   objectToFollow: {fileID: 672115477}
+  cooldownTime: 5
+  inCooldown: 0
 --- !u!50 &838784729
 Rigidbody2D:
   serializedVersion: 4
@@ -4936,6 +4939,17 @@ Transform:
   m_Father: {fileID: 672115477}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2047602240 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2062588915536289001, guid: a336d248e942d194382fd682c925b1f9, type: 3}
+  m_PrefabInstance: {fileID: 2141406105}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1774637e37be3d54f8e3f66869ed0ada, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2141406105
 PrefabInstance:
   m_ObjectHideFlags: 0

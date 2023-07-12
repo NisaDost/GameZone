@@ -52,22 +52,21 @@ public class PlayerMovement : MonoBehaviour {
 		animator.speed = 0f;
 	}
 
- //   public void StopAnimationShield()
- //   {
+	//   public void StopAnimationShield()
+	//   {
 	//	animator.SetBool("isShielding", true);
- //       StartCoroutine(WaitTime());
- //   }
+	//       StartCoroutine(WaitTime());
+	//   }
 
-	//public IEnumerator WaitTime()
+	//public IEnumerator WaitTime(float time)
 	//{
-	//	StopAnimation();
-	//	yield return new WaitForSeconds(4f);
- //       ResumeAnimation();
+	//	yield return new WaitForSeconds(time);
 	//}
 
-    public void DisableShield()
+	public void DisableShield()
     {
         animator.SetBool("isShielding", false);
+        ResetRunSpeed();
     }
 
     public void ResumeAnimation()

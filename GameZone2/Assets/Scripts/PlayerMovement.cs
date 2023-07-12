@@ -12,9 +12,7 @@ public class PlayerMovement : MonoBehaviour {
 	float horizontalMove = 0f;
 	bool jump = false;
 
-	//public Transform objectToFollow;
-
-	void Update () {
+    void Update () {
 
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
 
@@ -43,10 +41,6 @@ public class PlayerMovement : MonoBehaviour {
 				}
 			}
 		}
-
-		//Vector2 targetPosition = new Vector2(objectToFollow.position.x, objectToFollow.position.y);
-		//transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * runSpeed);
-
 	}
 
     public void OnLanding ()
@@ -54,6 +48,11 @@ public class PlayerMovement : MonoBehaviour {
 		animator.SetBool("IsJumping", false);
 	}
 
+	public void StopAnimationByTime(float time)
+	{
+		animator.speed = 0;
+		Invoke(nameof(ResumeAnimation), time);
+	}
 	public void StopAnimation()
 	{
 		animator.speed = 0f;
@@ -63,6 +62,16 @@ public class PlayerMovement : MonoBehaviour {
     {
         animator.speed = 1f;
     }
+	public IEnumerator ShowMustGoOn(float time)
+	{
+		animator.Play("ShieldMC");
+		yield return new WaitForSeconds(time);
+	}
+	public float getRunSpeed()
+	{
+		return runSpeed;
+	}
+
     void FixedUpdate ()
 	{
 		controller.Move(horizontalMove * Time.fixedDeltaTime, jump);

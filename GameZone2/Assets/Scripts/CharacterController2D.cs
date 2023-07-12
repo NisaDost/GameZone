@@ -102,4 +102,8 @@ public class CharacterController2D : MonoBehaviour
 	{
 		return grounded;
 	}
+	public void SetJumpSpeed(float jumpSpeed)
+	{
+		this.jumpSpeed = jumpSpeed;
+	}
 }

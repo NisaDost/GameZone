@@ -6,8 +6,9 @@ public class PlayerMovement : MonoBehaviour {
 
 	public CharacterController2D controller;
 	public Animator animator;
-	[SerializeField] float shieldTime = 2f;
 	public float runSpeed = 40f;
+	public float originalRunSpeed = 40f;
+
     float horizontalMove = 0f;
 	bool jump = false;
 
@@ -51,21 +52,18 @@ public class PlayerMovement : MonoBehaviour {
 		animator.speed = 0f;
 	}
 
-    public void StopAnimationShield()
-    {
-		StopAnimation();
-        StartCoroutine(WaitTime());
-        ResumeAnimation();
-    }
+ //   public void StopAnimationShield()
+ //   {
+	//	animator.SetBool("isShielding", true);
+ //       StartCoroutine(WaitTime());
+ //   }
 
-	public IEnumerator WaitTime()
-	{
-		Debug.Log("Bekle");
-		yield return new WaitForSeconds(4f);
-		Debug.Log("Bekledim");
-		yield return null;
-		
-	}
+	//public IEnumerator WaitTime()
+	//{
+	//	StopAnimation();
+	//	yield return new WaitForSeconds(4f);
+ //       ResumeAnimation();
+	//}
 
     public void DisableShield()
     {
@@ -76,11 +74,19 @@ public class PlayerMovement : MonoBehaviour {
     {
         animator.speed = 1f;
     }
-	public float getRunSpeed()
+	public float GetRunSpeed()
 	{
 		return runSpeed;
 	}
-    void FixedUpdate ()
+	public void SetRunSpeed(float newRunSpeed)
+	{
+		runSpeed = newRunSpeed;
+	}
+	public void ResetRunSpeed()
+	{
+		runSpeed = originalRunSpeed;
+    }
+	void FixedUpdate ()
 	{
 		controller.Move(horizontalMove * Time.fixedDeltaTime, jump);
 		jump = false;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerCombat : MonoBehaviour
 {
     public Animator animator;
     public PlayerMovement movement;
@@ -16,6 +16,11 @@ public class PlayerHealth : MonoBehaviour
         {
             DeadMovement();
             animator.SetBool("isDead", true);
+        }
+
+        if(Input.GetMouseButton(0))
+        {
+            animator.SetBool("isAttack", true);
         }
     }
     public void DeadMovement()

@@ -18,9 +18,9 @@ public class PlayerCombat : MonoBehaviour
             animator.SetBool("isDead", true);
         }
 
-        if(Input.GetMouseButton(0))
+        if(Input.GetMouseButtonDown(0))
         {
-            animator.SetBool("isAttack", true);
+            animator.SetTrigger("isAttack1");
         }
     }
     public void DeadMovement()

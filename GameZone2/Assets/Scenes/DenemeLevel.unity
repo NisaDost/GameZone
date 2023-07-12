@@ -4757,11 +4757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b6d4b1d85c254924aa501912ddff4ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &702783147 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2062588915536288789, guid: a336d248e942d194382fd682c925b1f9, type: 3}
-  m_PrefabInstance: {fileID: 2141406105}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &838784725
 GameObject:
   m_ObjectHideFlags: 0
@@ -4788,7 +4783,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838784725}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -4835,9 +4830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 702783145}
-  animator: {fileID: 702783147}
   objectToFollow: {fileID: 672115477}
-  shieldTime: 5
 --- !u!50 &838784729
 Rigidbody2D:
   serializedVersion: 4

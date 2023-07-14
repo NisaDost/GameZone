@@ -10,9 +10,8 @@ public class PlayerCombat : MonoBehaviour
 
     public int health = 100;
 
-    // public static float timeLeft = 0.5f;
-    // public bool timerOn;
-
+    public float timeLeft = 0.5f;
+    
     void Update()
     {
         if(health == 0)
@@ -21,30 +20,92 @@ public class PlayerCombat : MonoBehaviour
             animator.SetBool("isDead", true);
         }
 
-        // if(Input.GetMouseButtonDown(0))
-        // {   
-        //     animator.SetBool("isAttack1", true);
-        //     Debug.Log("attack1" + animator.GetBool("isAttack"));
+        //if (Input.GetMouseButtonDown(0) && !isAttacking)
+        //{
+        //    StartCoroutine(AttackCombo());
+        //}
+        #region deneme tahtasi
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    animator.Play("Attack1MC");
+        //    StartCoroutine(Timer());
 
-        //     Timer();
-        //     if(Input.GetMouseButtonDown(0) && timerOn && animator.GetBool("isAttack1")){
-                
-        //         animator.SetBool("isAttack2", true);
-        //         Debug.Log("attack2" + animator.GetBool("isAttack2"));
+        //    if (Input.GetMouseButtonDown(0) && timeLeft > 0)
+        //    {
+        //        ResetTimer();
+        //        animator.Play("Attack2MC");
+        //        StartCoroutine(Timer());
 
-        //         Timer();
-        //         if(Input.GetMouseButtonDown(0) && timerOn && animator.GetBool("isAttack2"))
-        //         {   
-        //             animator.SetBool("isAttack3", true);
-        //             Debug.Log("attack3" + animator.GetBool("isAttack3"));
-              
-        //         }
-        //     }
+        //        if (Input.GetMouseButtonDown(0) && timeLeft > 0)
+        //        {
+        //            ResetTimer();
+        //            animator.Play("Attack3MC");
+        //        }
+        //    }
+        //}
 
-        //     animator.SetBool("isAttack1", false);
-        //     animator.SetBool("isAttack2", false);
-        //     animator.SetBool("isAttack3", false);
-        // }
+        if (Input.GetMouseButtonDown(0))
+        {
+            animator.Play("Attack1MC");
+            Timer();
+
+        }
+        else if (Input.GetMouseButtonDown(0) && timeLeft > 0)
+        {
+            ResetTimer();
+            animator.Play("Attack2MC");
+            Timer();
+
+        }
+        else if (Input.GetMouseButtonDown(0) && timeLeft > 0)
+        {
+            ResetTimer();
+            animator.Play("Attack3MC");
+        }
+        #endregion
+    }
+
+    #region deneme tahtasi
+    //private IEnumerator AttackCombo()
+    //{
+    //    isAttacking = true;
+
+    //    animator.Play("Attack1MC");
+    //    yield return StartCoroutine(WaitForTimer());
+
+    //    if (Input.GetMouseButtonDown(0) && timeLeft > 0)
+    //    {
+    //        ResetTimer();
+    //        animator.Play("Attack2MC");
+    //        Debug.Log("Sen ne ayaksin");
+    //        yield return StartCoroutine(WaitForTimer());
+    //    }
+
+    //    if (Input.GetMouseButtonDown(0) && timeLeft > 0)
+    //    {
+    //        ResetTimer();
+    //        animator.Play("Attack3MC");
+    //        Debug.Log("Sen ne kafasin");
+    //        yield return StartCoroutine(WaitForTimer());
+    //    }
+
+    //    isAttacking = false;
+    //}
+    #endregion
+
+    private IEnumerator Timer()
+    {
+        while (timeLeft > 0)
+        {
+            timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+
+        ResetTimer();
+    }
+    public void ResetTimer()
+    {
+        timeLeft = 0.5f;
     }
 
     public void DeadMovement()

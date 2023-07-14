@@ -43,7 +43,8 @@ public class PlayerMovement : MonoBehaviour {
 				{
 					StopAnimation();
 				}
-				else{
+				else
+				{
 					DisableShield();
 				}
 		}

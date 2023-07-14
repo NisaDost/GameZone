@@ -12,6 +12,9 @@ public class PlayerMovement : MonoBehaviour {
     float horizontalMove = 0f;
 	bool jump = false;
 
+	// private float coyoteTime = 20f;		// isGrounded() false olduktan sonra jump yapılabilecek süre
+	// private float coyoteTimeCounter;	//yardımcı eleman
+
     void Update () {
 
 		horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
@@ -20,15 +23,18 @@ public class PlayerMovement : MonoBehaviour {
         
 		if (!controller.IsGrounded())
         {
+			//coyoteTimeCounter -= Time.deltaTime;
             animator.SetBool("IsJumping", true);
         }
 		else
 		{
+			//coyoteTimeCounter = coyoteTime;
+
 			OnLanding();
 			ResumeAnimation();
 		}
 
-        if (Input.GetButtonDown("Jump") && controller.IsGrounded())
+        if (Input.GetButtonDown("Jump") && controller.IsGrounded() /*coyoteTimeCounter > 0*/)
 		{
 				animator.SetBool("IsJumping", true);
 				jump = true;
@@ -41,6 +47,9 @@ public class PlayerMovement : MonoBehaviour {
 					DisableShield();
 				}
 		}
+		// else{
+		// 	coyoteTimeCounter = 0;
+		// }
 	}
 
     public void OnLanding ()

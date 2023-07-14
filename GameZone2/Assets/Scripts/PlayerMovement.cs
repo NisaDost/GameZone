@@ -28,10 +28,8 @@ public class PlayerMovement : MonoBehaviour {
 			ResumeAnimation();
 		}
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && controller.IsGrounded())
 		{
-			if(controller.IsGrounded())
-			{
 				animator.SetBool("IsJumping", true);
 				jump = true;
 				Debug.Log("Grounded: " + controller.IsGrounded());
@@ -39,7 +37,9 @@ public class PlayerMovement : MonoBehaviour {
 				{
 					StopAnimation();
 				}
-			}
+				else{
+					DisableShield();
+				}
 		}
 	}
 
@@ -52,18 +52,7 @@ public class PlayerMovement : MonoBehaviour {
 		animator.speed = 0f;
 	}
 
-	//   public void StopAnimationShield()
-	//   {
-	//	animator.SetBool("isShielding", true);
-	//       StartCoroutine(WaitTime());
-	//   }
-
-	//public IEnumerator WaitTime(float time)
-	//{
-	//	yield return new WaitForSeconds(time);
-	//}
-
-	public void DisableShield()
+		public void DisableShield()
     {
         animator.SetBool("isShielding", false);
         ResetRunSpeed();

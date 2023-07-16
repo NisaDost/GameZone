@@ -10,7 +10,7 @@ public class PlayerCombat : MonoBehaviour
 
     public int health = 100;
 
-    public float timeLeft = 0.5f;
+    private int attackCounter = 0;
     
     void Update()
     {
@@ -20,93 +20,61 @@ public class PlayerCombat : MonoBehaviour
             animator.SetBool("isDead", true);
         }
 
-        //if (Input.GetMouseButtonDown(0) && !isAttacking)
-        //{
-        //    StartCoroutine(AttackCombo());
-        //}
-        #region deneme tahtasi
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    animator.Play("Attack1MC");
-        //    StartCoroutine(Timer());
-
-        //    if (Input.GetMouseButtonDown(0) && timeLeft > 0)
-        //    {
-        //        ResetTimer();
-        //        animator.Play("Attack2MC");
-        //        StartCoroutine(Timer());
-
-        //        if (Input.GetMouseButtonDown(0) && timeLeft > 0)
-        //        {
-        //            ResetTimer();
-        //            animator.Play("Attack3MC");
-        //        }
-        //    }
-        //}
-
-        if (Input.GetMouseButtonDown(0))
+         if (Input.GetMouseButtonDown(0))
         {
-            animator.Play("Attack1MC");
-            Timer();
+            if (attackCounter == 0)
+            {
+                Attack1();
+                attackCounter = 1;
+            }
+            else if (attackCounter == 1)
+            {
+                Attack2();
+                attackCounter = 2;
+            }
+            else if (attackCounter == 2)
+            {
+                Attack3();
+                attackCounter = 0;
+            }
+        }
 
-        }
-        else if (Input.GetMouseButtonDown(0) && timeLeft > 0)
-        {
-            ResetTimer();
-            animator.Play("Attack2MC");
-            Timer();
-
-        }
-        else if (Input.GetMouseButtonDown(0) && timeLeft > 0)
-        {
-            ResetTimer();
-            animator.Play("Attack3MC");
-        }
-        #endregion
     }
 
-    #region deneme tahtasi
-    //private IEnumerator AttackCombo()
-    //{
-    //    isAttacking = true;
-
-    //    animator.Play("Attack1MC");
-    //    yield return StartCoroutine(WaitForTimer());
-
-    //    if (Input.GetMouseButtonDown(0) && timeLeft > 0)
-    //    {
-    //        ResetTimer();
-    //        animator.Play("Attack2MC");
-    //        Debug.Log("Sen ne ayaksin");
-    //        yield return StartCoroutine(WaitForTimer());
-    //    }
-
-    //    if (Input.GetMouseButtonDown(0) && timeLeft > 0)
-    //    {
-    //        ResetTimer();
-    //        animator.Play("Attack3MC");
-    //        Debug.Log("Sen ne kafasin");
-    //        yield return StartCoroutine(WaitForTimer());
-    //    }
-
-    //    isAttacking = false;
-    //}
-    #endregion
-
-    private IEnumerator Timer()
+    private void Attack1()
     {
-        while (timeLeft > 0)
-        {
-            timeLeft -= Time.deltaTime;
-            yield return null;
-        }
-
-        ResetTimer();
+        animator.SetBool("Attack1", true);
+        animator.SetInteger("attackCount", attackCounter);
     }
-    public void ResetTimer()
+ 
+    private void Attack2()
     {
-        timeLeft = 0.5f;
+        animator.SetBool("Attack2", true);
+        animator.SetInteger("attackCount", attackCounter);
     }
+ 
+    private void Attack3()
+    {
+        animator.SetBool("Attack3", true);
+        animator.SetInteger("attackCount", attackCounter);
+    }
+ 
+    private void FinishAttack1()
+    {
+        animator.SetBool("Attack1", false);
+    }
+   
+    private void FinishAttack2()
+    {
+        animator.SetBool("Attack2", false);
+    }
+   
+    private void FinishAttack3()
+    {
+        animator.SetBool("Attack3", false);
+    }
+        
+
 
     public void DeadMovement()
     {

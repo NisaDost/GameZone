@@ -7,10 +7,13 @@ public class PlayerCombat : MonoBehaviour
     public Animator animator;
     public PlayerMovement movement;
     public CharacterController2D controller;
+    public MouseClickTimer clickdiff;
 
     public int health = 100;
 
     private int attackCounter = 0;
+    //private float originalTime = 3f;
+    private float timeDuration = 3f;
     
     void Update()
     {
@@ -22,31 +25,36 @@ public class PlayerCombat : MonoBehaviour
 
          if (Input.GetMouseButtonDown(0))
         {
-            if (attackCounter == 0)
+            if (attackCounter == 0 )
             {
                 Attack1();
                 attackCounter = 1;
             }
-            else if (attackCounter == 1)
-            {
+            else if (attackCounter == 1 && clickdiff.timeDifference <= timeDuration)
+            {   
                 Attack2();
                 attackCounter = 2;
             }
-            else if (attackCounter == 2)
+            else if (attackCounter == 2 && clickdiff.timeDifference <= timeDuration)
             {
                 Attack3();
+                attackCounter = 0;
+            }
+            else{
+                Attack1();
                 attackCounter = 0;
             }
         }
 
     }
+ #region attack fonk
 
     private void Attack1()
     {
         animator.SetBool("Attack1", true);
         animator.SetInteger("attackCount", attackCounter);
     }
- 
+
     private void Attack2()
     {
         animator.SetBool("Attack2", true);
@@ -73,7 +81,7 @@ public class PlayerCombat : MonoBehaviour
     {
         animator.SetBool("Attack3", false);
     }
-        
+#endregion 
 
 
     public void DeadMovement()

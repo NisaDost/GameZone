@@ -25,7 +25,7 @@ public class PlayerCombat : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (attackCounter == 0 )
+            if (attackCounter == 0)
             {
                 Attack1();
                 attackCounter = 1;
@@ -40,9 +40,10 @@ public class PlayerCombat : MonoBehaviour
                 Attack3();
                 attackCounter = 0;
             }
-            else{
+            else
+            {
                 Attack1();
-                attackCounter = 0;
+                attackCounter = 1;
             }
         }
 
@@ -83,12 +84,12 @@ public class PlayerCombat : MonoBehaviour
     }
 #endregion 
 
-
     public void DeadMovement()
     {
         movement.SetRunSpeed(0f);
         controller.SetJumpSpeed(0f);
     }
+
     public void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))

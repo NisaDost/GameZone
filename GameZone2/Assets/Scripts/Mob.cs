@@ -6,7 +6,6 @@ public class Mob : MonoBehaviour
 {
     private int mob1Health = 100 ;
 
-
     void Update()
     {
         
@@ -15,8 +14,8 @@ public class Mob : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Weapon"))
         {
-            mob1Health -= 10 ;  
-            Debug.Log("mob1Health:  " + mob1Health);
+            mob1Health -= 10;  
+            Debug.Log("mob1Health: " + mob1Health);
         }
     }
 }

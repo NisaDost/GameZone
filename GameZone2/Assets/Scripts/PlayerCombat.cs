@@ -8,14 +8,14 @@ public class PlayerCombat : MonoBehaviour
     public PlayerMovement movement;
     public CharacterController2D controller;
     public MouseClickTimer clickdiff;
+    
 
     public int health = 100;
 
     private int attackCounter = 0;
-    //private float originalTime = 3f;
     private float timeDuration = 3f;
     
-    void Update()
+    void FixedUpdate()
     {
         if(health == 0)
         {
@@ -23,7 +23,7 @@ public class PlayerCombat : MonoBehaviour
             animator.SetBool("isDead", true);
         }
 
-         if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             if (attackCounter == 0 )
             {
@@ -103,6 +103,6 @@ public class PlayerCombat : MonoBehaviour
                 Debug.Log("Geberdin");
                 health = 0;
             }
-        }
+        } 
     }
 }

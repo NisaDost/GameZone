@@ -5227,7 +5227,6 @@ GameObject:
   - component: {fileID: 1602583343}
   - component: {fileID: 1602583342}
   - component: {fileID: 1602583347}
-  - component: {fileID: 1602583348}
   m_Layer: 8
   m_Name: Skeleton
   m_TagString: Enemy
@@ -5372,36 +5371,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb2f1c7166545b419dfe7f71f3c7190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointLeft: {fileID: 2035721151}
-  pointRight: {fileID: 346812458}
+  pointLeft: {fileID: 2035721152}
+  pointRight: {fileID: 346812459}
   speed: 2
   idleTime: 2
---- !u!61 &1602583348
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602583341}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.12569714, y: 0.04030049}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.9166667, y: 1.3333334}
-    newSize: {x: 0.0859375, y: 0.125}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.115880966, y: 0.08613467}
-  m_EdgeRadius: 0
 --- !u!1 &1786909579
 GameObject:
   m_ObjectHideFlags: 0

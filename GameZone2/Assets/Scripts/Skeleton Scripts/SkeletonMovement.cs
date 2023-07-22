@@ -1,11 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonMovement : MonoBehaviour
 {
-    public GameObject pointLeft;
-    public GameObject pointRight;
+    public Transform pointLeft;
+    public Transform pointRight;
     private Rigidbody2D rb;
     private Animator animator;
     private Transform currentPoint;
@@ -16,7 +15,7 @@ public class SkeletonMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        currentPoint = pointRight.transform;
+        currentPoint = pointRight;
         animator.SetBool("isRunning", true);
     }
 
@@ -24,40 +23,34 @@ public class SkeletonMovement : MonoBehaviour
     {
         Vector2 point = currentPoint.position - transform.position;
 
-        if (currentPoint == pointRight.transform)
+        if (currentPoint == pointRight && point.x < 0)
         {
             animator.SetBool("isRunning", false);
-            StartCoroutine(IdleTime(idleTime));
-            rb.velocity = new Vector2(-speed, 0);
+            rb.velocity = Vector2.zero;
+            StartCoroutine(IdleTime(idleTime)); // Add this line to trigger the idle behavior.
         }
-        else if(currentPoint == pointLeft.transform)
+        else if (currentPoint == pointLeft && point.x > 0)
         {
             animator.SetBool("isRunning", false);
-            StartCoroutine(IdleTime(idleTime));
-            rb.velocity = new Vector2(speed, 0);
+            rb.velocity = Vector2.zero;
+            StartCoroutine(IdleTime(idleTime)); // Add this line to trigger the idle behavior.
         }
         else
         {
-            rb.velocity = new Vector2(speed, 0);
+            animator.SetBool("isRunning", true);
+            rb.velocity = new Vector2((currentPoint == pointRight ? -speed : speed), 0);
         }
 
-        if (Vector2.Distance(transform.position, currentPoint.position) < 2f && currentPoint == pointRight.transform)
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.1f)
         {
+            currentPoint = (currentPoint == pointRight) ? pointLeft : pointRight;
             Flip();
-            currentPoint = pointLeft.transform;
-        }
-
-        if (Vector2.Distance(transform.position, currentPoint.position) < 2f && currentPoint == pointLeft.transform)
-        {
-            Flip();
-            currentPoint = pointRight.transform;
         }
     }
 
-    private IEnumerator IdleTime(float idleTime)
+    private IEnumerator IdleTime(float time)
     {
-        new WaitForSeconds(idleTime);
-        yield return null;
+        yield return new WaitForSeconds(time);
     }
 
     private void Flip()
@@ -69,8 +62,11 @@ public class SkeletonMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(pointLeft.transform.position, 0.5f);
-        Gizmos.DrawWireSphere(pointRight.transform.position, 0.5f);
-        Gizmos.DrawLine(pointLeft.transform.position, pointRight.transform.position);
+        if (pointLeft != null && pointRight != null)
+        {
+            Gizmos.DrawWireSphere(pointLeft.position, 0.5f);
+            Gizmos.DrawWireSphere(pointRight.position, 0.5f);
+            Gizmos.DrawLine(pointLeft.position, pointRight.position);
+        }
     }
 }

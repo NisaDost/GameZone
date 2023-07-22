@@ -16,7 +16,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - Shield
+  - 
   - 
   - 
   - 
@@ -44,4 +44,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 2811395925
+    locked: 0
+  - name: Shiled
+    uniqueID: 1555152897
+    locked: 0
+  - name: Enemy
+    uniqueID: 4272198137
     locked: 0

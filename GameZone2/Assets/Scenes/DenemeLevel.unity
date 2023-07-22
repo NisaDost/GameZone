@@ -5232,16 +5232,16 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602583341}
-  m_BodyType: 2
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -5340,9 +5340,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb2f1c7166545b419dfe7f71f3c7190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  pacingSpeed: 2
   pacingRange: 5
   idleDuration: 2
+  detectionRange: 7
+  attackRange: 1.5
+  attackCooldown: 2
 --- !u!1 &1786909579
 GameObject:
   m_ObjectHideFlags: 0
@@ -5445,6 +5448,17 @@ MonoBehaviour:
   maxX: 17
   minY: 0
   maxY: 7
+--- !u!114 &2047602250 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3784363126492658711, guid: a336d248e942d194382fd682c925b1f9, type: 3}
+  m_PrefabInstance: {fileID: 2141406105}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 034281bab4bc9774286f39876ee857cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2141406105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5555,7 +5569,7 @@ PrefabInstance:
     - target: {fileID: 2585227087310643673, guid: a336d248e942d194382fd682c925b1f9, type: 3}
       propertyPath: clickdiff
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2047602250}
     - target: {fileID: 2650468426261265418, guid: a336d248e942d194382fd682c925b1f9, type: 3}
       propertyPath: objectToFollow
       value: 

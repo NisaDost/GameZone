@@ -4,136 +4,73 @@ using UnityEngine;
 
 public class SkeletonMovement : MonoBehaviour
 {
-    public float pacingSpeed = 2f;
-    public float pacingRange = 5f;
-    public float idleDuration = 2f;
-    public float detectionRange = 10f;
-    public float attackRange = 2f;
-    public float attackCooldown = 2f;
-
-    private Vector2 leftBoundary;
-    private Vector2 rightBoundary;
-    private Vector2 targetPosition; // Add targetPosition for 2D movement.
-    private Transform player;
+    public GameObject pointLeft;
+    public GameObject pointRight;
+    private Rigidbody2D rb;
     private Animator animator;
-    private SpriteRenderer spriteRenderer;
-    private bool isWalking = true;
-    private bool isAttacking = false;
-    private float lastAttackTime = 0f;
+    private Transform currentPoint;
+    public float speed = 2f;
+    public float idleTime = 2f;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-
-        leftBoundary = (Vector2)transform.position - Vector2.right * (pacingRange / 2f); // Convert to Vector2.
-        rightBoundary = (Vector2)transform.position + Vector2.right * (pacingRange / 2f); // Convert to Vector2.
-        targetPosition = rightBoundary; // Set initial target position.
+        currentPoint = pointRight.transform;
+        animator.SetBool("isRunning", true);
     }
 
     private void Update()
     {
-        if (!isAttacking)
-        {
-            DetectPlayer();
+        Vector2 point = currentPoint.position - transform.position;
 
-            if (isWalking)
-            {
-                MovePacing();
-            }
-            else if (player != null)
-            {
-                MoveTowardsPlayer();
-            }
+        if (currentPoint == pointRight.transform)
+        {
+            animator.SetBool("isRunning", false);
+            StartCoroutine(IdleTime(idleTime));
+            rb.velocity = new Vector2(-speed, 0);
         }
-    }
-
-    private void MoveTowardsPlayer()
-    {
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        if (distanceToPlayer <= attackRange)
+        else if(currentPoint == pointLeft.transform)
         {
-            StartCoroutine(Attack());
+            animator.SetBool("isRunning", false);
+            StartCoroutine(IdleTime(idleTime));
+            rb.velocity = new Vector2(speed, 0);
         }
         else
         {
-            float direction = Mathf.Sign(player.position.x - transform.position.x);
-            spriteRenderer.flipX = (direction < 0f);
+            rb.velocity = new Vector2(speed, 0);
+        }
 
-            float targetX = player.position.x;
-            
-            Vector2 targetPosition = new Vector2(targetX, transform.position.y);
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, pacingSpeed * Time.deltaTime);
+        if (Vector2.Distance(transform.position, currentPoint.position) < 2f && currentPoint == pointRight.transform)
+        {
+            Flip();
+            currentPoint = pointLeft.transform;
+        }
+
+        if (Vector2.Distance(transform.position, currentPoint.position) < 2f && currentPoint == pointLeft.transform)
+        {
+            Flip();
+            currentPoint = pointRight.transform;
         }
     }
 
-    private void MovePacing()
+    private IEnumerator IdleTime(float idleTime)
     {
-        float direction = Mathf.Sign(targetPosition.x - transform.position.x);
-        spriteRenderer.flipX = (direction < 0f);
-
-        transform.position = Vector2.MoveTowards(transform.position, targetPosition, pacingSpeed * Time.deltaTime);
-
-        if (Vector2.Distance(transform.position, targetPosition) < 0.01f)
-        {
-            StartCoroutine(IdleAndTurn());
-        }
+        new WaitForSeconds(idleTime);
+        yield return null;
     }
 
-    private void DetectPlayer()
+    private void Flip()
     {
-        if (player != null)
-        {
-            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-            isWalking = (distanceToPlayer > detectionRange);
-        }
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1;
+        transform.localScale = localScale;
     }
 
-    private IEnumerator IdleAndTurn()
+    private void OnDrawGizmos()
     {
-        isWalking = false;
-
-        if (animator != null)
-        {
-            animator.SetBool("IsWalking", false);
-        }
-
-        yield return new WaitForSeconds(idleDuration);
-
-        targetPosition = (targetPosition == leftBoundary) ? rightBoundary : leftBoundary;
-        isWalking = true;
-
-        if (animator != null)
-        {
-            animator.SetBool("IsWalking", true);
-        }
-    }
-
-    private void AnimationFix(){
-        if(transform.position.x < 0){
-            transfrom.position.x -= 0.5;
-        }
-        else{
-            transfrom.position.x += 0.5;
-        }
-    }
-
-    private IEnumerator Attack()
-    {
-        isAttacking = true;
-
-        if (animator != null)
-        {
-            animator.SetTrigger("Attack");
-        }
-
-        Debug.Log("Mob is attacking!");
-
-        yield return new WaitForSeconds(attackCooldown);
-
-        isAttacking = false;
+        Gizmos.DrawWireSphere(pointLeft.transform.position, 0.5f);
+        Gizmos.DrawWireSphere(pointRight.transform.position, 0.5f);
+        Gizmos.DrawLine(pointLeft.transform.position, pointRight.transform.position);
     }
 }
-

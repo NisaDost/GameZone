@@ -1,55 +1,59 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonMovement : MonoBehaviour
 {
     public Transform pointLeft;
     public Transform pointRight;
-    private Rigidbody2D rb;
+    private Transform currentWaypoint;
     private Animator animator;
-    private Transform currentPoint;
-    public float speed = 2f;
+    public float speed = 1.8f;
     public float idleTime = 2f;
+    private bool isMovingForward;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        currentPoint = pointRight;
+        currentWaypoint = pointRight;
         animator.SetBool("isRunning", true);
     }
 
     private void Update()
     {
-        Vector2 point = currentPoint.position - transform.position;
+        Vector3 direction = (currentWaypoint.position - transform.position).normalized;
 
-        if (currentPoint == pointRight && point.x < 0)
+        float moveAmount = speed * Time.deltaTime;
+
+        transform.Translate(direction * moveAmount);
+
+        if (Vector3.Distance(transform.position, currentWaypoint.position) < 0.1f)
         {
-            animator.SetBool("isRunning", false);
-            rb.velocity = Vector2.zero;
-            StartCoroutine(IdleTime(idleTime)); // Add this line to trigger the idle behavior.
+            
+            //Flip();
+            //StartCoroutine(IdleTime(idleTime));
+            SwitchWaypoint();
         }
-        else if (currentPoint == pointLeft && point.x > 0)
-        {
-            animator.SetBool("isRunning", false);
-            rb.velocity = Vector2.zero;
-            StartCoroutine(IdleTime(idleTime)); // Add this line to trigger the idle behavior.
+    }
+   
+   void SwitchWaypoint()
+    {
+
+        if (isMovingForward)
+        {            
+            currentWaypoint = pointLeft;
         }
         else
-        {
-            animator.SetBool("isRunning", true);
-            rb.velocity = new Vector2((currentPoint == pointRight ? -speed : speed), 0);
+        {  
+            currentWaypoint = pointRight;
         }
-
-        if (Vector2.Distance(transform.position, currentPoint.position) < 0.1f)
-        {
-            currentPoint = (currentPoint == pointRight) ? pointLeft : pointRight;
-            Flip();
-        }
+        isMovingForward = !isMovingForward;
+        
     }
 
     private IEnumerator IdleTime(float time)
     {
+        //animator.Play("SkeletonIdle");
         yield return new WaitForSeconds(time);
     }
 

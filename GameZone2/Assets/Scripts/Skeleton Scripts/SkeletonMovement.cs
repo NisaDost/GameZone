@@ -8,12 +8,13 @@ public class SkeletonMovement : MonoBehaviour
     public Transform pointRight;
     public Transform player;
     private Transform currentWaypoint;
+    private Collider2D _collider;
     private Animator animator;
 
-    public float speed = 1.8f;
+    public float speed = 2f;
     public float idleTime = 2f;
-    private float attackRange = 1f;
-    private float detectRange = 4f;
+    private float attackRange = 0.8f;
+    private float detectRange = 6f;
     
     private bool isMovingForward;
     private bool isWaiting = false;
@@ -21,6 +22,7 @@ public class SkeletonMovement : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
+        _collider = GetComponent<Collider2D>();
         currentWaypoint = pointRight;
         animator.SetBool("isRunning", true);
     }
@@ -30,9 +32,8 @@ public class SkeletonMovement : MonoBehaviour
         if (player.position.x > transform.position.x - detectRange && player.position.x < transform.position.x + detectRange)
         {
             Chase();
-
-            
         }
+
         else if (!isWaiting)
         {
             Vector3 direction = (currentWaypoint.position - transform.position).normalized;
@@ -56,24 +57,24 @@ public class SkeletonMovement : MonoBehaviour
     {
         animator.SetBool("isRunning", true);
 
-        Vector3 direction = new Vector3(player.position.x - transform.position.x, 0f, 0f).normalized;
+        float playerDistanceX = Mathf.Abs(player.position.x - transform.position.x);
         float moveAmount = speed * Time.deltaTime;
 
-        float playerDistance = Vector3.Distance(transform.position, player.position);
-
-        if (playerDistance > attackRange)
+        if (playerDistanceX > attackRange)
         {
+            // Move towards the player only if the player is not within attack range
+            Vector3 direction = new Vector3(player.position.x - transform.position.x, 0f, 0f).normalized;
             transform.Translate(direction * moveAmount);
         }
-        else if (playerDistance < attackRange) // Change to playerDistance < attackRange
+        else if (playerDistanceX < attackRange)
         {
-            // Stop moving and play the attack animation
-            transform.position = Vector3.MoveTowards(transform.position, player.position, 0.2f); // Move the skeleton away from the player to avoid overlapping
-
+            // Player is within attack range, stop moving and trigger the attack animation
+            animator.SetBool("isRunning", false);
             animator.SetTrigger("Attack");
         }
 
-        if (direction.x >= 0 && transform.localScale.x <= 0 || direction.x <= 0 && transform.localScale.x >= 0)
+        // Make sure to flip the skeleton if needed
+        if (player.position.x > transform.position.x && transform.localScale.x < 0 || player.position.x < transform.position.x && transform.localScale.x > 0)
         {
             Flip();
         }
@@ -108,12 +109,13 @@ public class SkeletonMovement : MonoBehaviour
         localScale.x *= -1;
         transform.localScale = localScale;
     }
-    //animasyon kaydırması denemesi
-    void AnimationSlide(){
-        //Vector3 localPosition = transform.localPosition;
-        //localPosition.x += 0.4f;
-        //transform.localPosition = localPosition;
+
+    void OnCollisionEnter2D (Collision2D collision){
+        if (collision.gameObject.CompareTag("Player")){
+            _collider.enabled = false;
+        }
     }
+
     private void OnDrawGizmos()
     {
         if (pointLeft != null && pointRight != null)

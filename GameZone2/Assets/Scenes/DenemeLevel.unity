@@ -5286,7 +5286,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.12458295, y: 0.5130502}
@@ -5646,6 +5646,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2062588915536289001, guid: a336d248e942d194382fd682c925b1f9, type: 3}
+      propertyPath: jumpSpeed
+      value: 330
+      objectReference: {fileID: 0}
+    - target: {fileID: 2062588915536289001, guid: a336d248e942d194382fd682c925b1f9, type: 3}
       propertyPath: whatIsGround.m_Bits
       value: 63
       objectReference: {fileID: 0}
@@ -5666,9 +5670,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2047602250}
     - target: {fileID: 2650468426261265418, guid: a336d248e942d194382fd682c925b1f9, type: 3}
+      propertyPath: runSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2650468426261265418, guid: a336d248e942d194382fd682c925b1f9, type: 3}
       propertyPath: objectToFollow
       value: 
       objectReference: {fileID: 672115477}
+    - target: {fileID: 2650468426261265418, guid: a336d248e942d194382fd682c925b1f9, type: 3}
+      propertyPath: originalRunSpeed
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2671179294643539745, guid: a336d248e942d194382fd682c925b1f9, type: 3}
       propertyPath: m_RootOrder
       value: 3

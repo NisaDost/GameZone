@@ -11,7 +11,6 @@ public class PlayerCombat : MonoBehaviour
     
 
     public int health = 100;
-
     private int attackCounter = 0;
     private float timeDuration = 3f;
     
@@ -47,7 +46,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
     }
- #region attack fonk
+ #region attack fonk yiit artıık ssuuuusss
 
     private void Attack1()
     {
@@ -88,6 +87,7 @@ public class PlayerCombat : MonoBehaviour
     {
         movement.SetRunSpeed(0f);
         controller.SetJumpSpeed(0f);
+        // zıplayabiliyor hala
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {

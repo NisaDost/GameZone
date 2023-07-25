@@ -6,8 +6,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	public CharacterController2D controller;
 	public Animator animator;
-	public float runSpeed = 40f;
-	public float originalRunSpeed = 40f;
+	public float runSpeed = 4f;
+	public float originalRunSpeed = 4f;
 
     float horizontalMove = 0f;
 	bool jump = false;
@@ -28,18 +28,18 @@ public class PlayerMovement : MonoBehaviour {
 			ResumeAnimation();
 		}
 
-        if (Input.GetButtonDown("Jump") && controller.IsGrounded() /*coyoteTimeCounter > 0*/)
+        if (Input.GetButtonDown("Jump") && controller.IsGrounded())
 		{
-				animator.SetBool("IsJumping", true);
-				jump = true;
-				if (!controller.IsGrounded())
-				{
-					StopAnimation();
-				}
-				else
-				{
-					DisableShield();
-				}
+			animator.SetBool("IsJumping", true);
+			jump = true;
+			if (!controller.IsGrounded())
+			{
+				StopAnimation();
+			}
+			else
+			{
+				DisableShield();
+			}
 		}
 	}
 
@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		animator.SetBool("IsJumping", false);
 	}
+
 	public void StopAnimation()
 	{
 		animator.speed = 0f;

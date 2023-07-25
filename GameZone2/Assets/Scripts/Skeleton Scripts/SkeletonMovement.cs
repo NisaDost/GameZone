@@ -12,7 +12,8 @@ public class SkeletonMovement : MonoBehaviour
 
     public float speed = 1.8f;
     public float idleTime = 2f;
-    private float attackRange = 2f;
+    private float attackRange = 1f;
+    private float detectRange = 4f;
     
     private bool isMovingForward;
     private bool isWaiting = false;
@@ -26,9 +27,11 @@ public class SkeletonMovement : MonoBehaviour
 
     private void Update()
     {
-        if (player.position.x > pointLeft.position.x && player.position.x < pointRight.position.x)
+        if (player.position.x > transform.position.x - detectRange && player.position.x < transform.position.x + detectRange)
         {
-            ChaseAndAttack();
+            Chase();
+
+            
         }
         else if (!isWaiting)
         {
@@ -49,24 +52,30 @@ public class SkeletonMovement : MonoBehaviour
             }
         }
     }
-    void ChaseAndAttack()
+    void Chase()
     {
         animator.SetBool("isRunning", true);
 
-        Vector3 direction = (player.position - transform.position).normalized;
-
+        Vector3 direction = new Vector3(player.position.x - transform.position.x, 0f, 0f).normalized;
         float moveAmount = speed * Time.deltaTime;
 
-        transform.Translate(direction * moveAmount);
+        float playerDistance = Vector3.Distance(transform.position, player.position);
 
-        if (direction.x > 0 && transform.localScale.x < 0 || direction.x < 0 && transform.localScale.x > 0)
+        if (playerDistance > attackRange)
+        {
+            transform.Translate(direction * moveAmount);
+        }
+        else if (playerDistance < attackRange) // Change to playerDistance < attackRange
+        {
+            // Stop moving and play the attack animation
+            transform.position = Vector3.MoveTowards(transform.position, player.position, 0.2f); // Move the skeleton away from the player to avoid overlapping
+
+            animator.SetTrigger("Attack");
+        }
+
+        if (direction.x >= 0 && transform.localScale.x <= 0 || direction.x <= 0 && transform.localScale.x >= 0)
         {
             Flip();
-        }
-        float playerDistance = Vector3.Distance(transform.position, player.position);
-        if (playerDistance <= attackRange)
-        {
-            animator.SetTrigger("Attack");
         }
     }
    

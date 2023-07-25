@@ -7,10 +7,12 @@ public class SkeletonMovement : MonoBehaviour
     public Transform pointLeft;
     public Transform pointRight;
     private Transform currentWaypoint;
+    
     private Animator animator;
     public float speed = 1.8f;
     public float idleTime = 2f;
     private bool isMovingForward;
+    private bool isWaiting = false;
 
     private void Start()
     {
@@ -21,24 +23,43 @@ public class SkeletonMovement : MonoBehaviour
 
     private void Update()
     {
-        Vector3 direction = (currentWaypoint.position - transform.position).normalized;
-
-        float moveAmount = speed * Time.deltaTime;
-
-        transform.Translate(direction * moveAmount);
-
-        if (Vector3.Distance(transform.position, currentWaypoint.position) < 0.1f)
+        if (!isWaiting)
         {
-            
-            //Flip();
-            //StartCoroutine(IdleTime(idleTime));
-            SwitchWaypoint();
+            Vector3 direction = (currentWaypoint.position - transform.position).normalized;
+
+            float moveAmount = speed * Time.deltaTime;
+
+            transform.Translate(direction * moveAmount);
+
+            if (direction.x > 0 && transform.localScale.x < 0 || direction.x < 0 && transform.localScale.x > 0)
+                {
+                    Flip();
+                }
+
+            if (Vector3.Distance(transform.position, currentWaypoint.position) < 0.1f)
+            {
+                StartCoroutine(IdleAndSwitchWaypoint());
+            }
         }
     }
    
+    IEnumerator IdleAndSwitchWaypoint()
+    {
+        isWaiting = true;
+
+        animator.SetBool("isRunning", false); // Play the idle animation
+
+        yield return new WaitForSeconds(idleTime); // Wait for the specified idle time
+
+        animator.SetBool("isRunning", true); // Resume the running animation
+
+        SwitchWaypoint(); // Switch the waypoint after waiting
+
+        isWaiting = false;
+    }
+
    void SwitchWaypoint()
     {
-
         if (isMovingForward)
         {            
             currentWaypoint = pointLeft;
@@ -47,14 +68,7 @@ public class SkeletonMovement : MonoBehaviour
         {  
             currentWaypoint = pointRight;
         }
-        isMovingForward = !isMovingForward;
-        
-    }
-
-    private IEnumerator IdleTime(float time)
-    {
-        //animator.Play("SkeletonIdle");
-        yield return new WaitForSeconds(time);
+        isMovingForward = !isMovingForward;        
     }
 
     private void Flip()
@@ -63,7 +77,6 @@ public class SkeletonMovement : MonoBehaviour
         localScale.x *= -1;
         transform.localScale = localScale;
     }
-
     private void OnDrawGizmos()
     {
         if (pointLeft != null && pointRight != null)

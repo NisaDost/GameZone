@@ -5275,7 +5275,7 @@ Rigidbody2D:
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!70 &1602583344
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5373,6 +5373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointLeft: {fileID: 2035721152}
   pointRight: {fileID: 346812459}
+  player: {fileID: 672115477}
   speed: 2
   idleTime: 2
 --- !u!1 &1786909579

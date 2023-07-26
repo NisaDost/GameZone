@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour {
 			ResumeAnimation();
 		}
 
-        if (Input.GetButtonDown("Jump") && controller.IsGrounded())
+        if (Input.GetButtonDown("Jump") && controller.IsGrounded() && controller.isDead() == false)
 		{
 			animator.SetBool("IsJumping", true);
 			jump = true;

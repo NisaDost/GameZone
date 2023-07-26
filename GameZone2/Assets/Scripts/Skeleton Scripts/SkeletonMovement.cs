@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class SkeletonMovement : MonoBehaviour
 {
+    public CharacterController2D controller;
+
     public Transform pointLeft;
     public Transform pointRight;
     public Transform player;
     private Transform currentWaypoint;
-    private Collider2D _collider;
     private Animator animator;
 
     public float speed = 2f;
     public float idleTime = 2f;
     private float attackRange = 0.8f;
-    private float detectRange = 6f;
+    public float detectRange = 6f;
     
     private bool isMovingForward;
     private bool isWaiting = false;
@@ -22,14 +23,13 @@ public class SkeletonMovement : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        _collider = GetComponent<Collider2D>();
         currentWaypoint = pointRight;
         animator.SetBool("isRunning", true);
     }
 
     private void Update()
     {
-        if (player.position.x > transform.position.x - detectRange && player.position.x < transform.position.x + detectRange)
+        if (player.position.x > transform.position.x - detectRange && player.position.x < transform.position.x + detectRange && controller.isDead() == false)
         {
             Chase();
         }
@@ -60,7 +60,7 @@ public class SkeletonMovement : MonoBehaviour
         float playerDistanceX = Mathf.Abs(player.position.x - transform.position.x);
         float moveAmount = speed * Time.deltaTime;
 
-        if (playerDistanceX > attackRange)
+        if (playerDistanceX > attackRange )
         {
             // Move towards the player only if the player is not within attack range
             Vector3 direction = new Vector3(player.position.x - transform.position.x, 0f, 0f).normalized;
@@ -108,12 +108,6 @@ public class SkeletonMovement : MonoBehaviour
         Vector3 localScale = transform.localScale;
         localScale.x *= -1;
         transform.localScale = localScale;
-    }
-
-    void OnCollisionEnter2D (Collision2D collision){
-        if (collision.gameObject.CompareTag("Player")){
-            _collider.enabled = false;
-        }
     }
 
     private void OnDrawGizmos()

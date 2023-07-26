@@ -22,7 +22,7 @@ public class PlayerCombat : MonoBehaviour
             animator.SetBool("isDead", true);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && controller.isDead() == false)
         {
             if (attackCounter == 0 )
             {
@@ -85,9 +85,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void DeadMovement()
     {
+        controller.setDead(true);
         movement.SetRunSpeed(0f);
-        controller.SetJumpSpeed(0f);
-        // zıplayabiliyor hala
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {

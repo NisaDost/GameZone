@@ -17,6 +17,7 @@ public class CharacterController2D : MonoBehaviour
 	private Rigidbody2D rb;
 	private bool facingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 velocity = Vector3.zero;
+	private bool isdead = false;
 
 	[Header("Events")]
 	[Space]
@@ -105,5 +106,11 @@ public class CharacterController2D : MonoBehaviour
 	public void SetJumpSpeed(float jumpSpeed)
 	{
 		this.jumpSpeed = jumpSpeed;
+	}
+	public bool isDead(){
+		return isdead;
+	}
+	public void setDead(bool isDead){
+		isdead = isDead;
 	}
 }

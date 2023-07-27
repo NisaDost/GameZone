@@ -8,6 +8,7 @@ TagManager:
   - Shield
   - Enemy
   - Weapon
+  - Skeleton
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Player
   - skeleton
-  - 
+  - Shield
   - 
   - 
   - 
@@ -47,9 +48,6 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2811395925
-    locked: 0
-  - name: Shiled
-    uniqueID: 1555152897
     locked: 0
   - name: Enemy
     uniqueID: 4272198137

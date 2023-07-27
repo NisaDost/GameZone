@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		animator.speed = 0f;
 	}
-		public void DisableShield()
+	public void DisableShield()
     {
         animator.SetBool("isShielding", false);
         ResetRunSpeed();

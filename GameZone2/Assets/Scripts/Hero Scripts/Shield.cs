@@ -16,9 +16,17 @@ public class Shield : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1) && controller.IsGrounded() && !inCooldown) 
         {
-            movement.animator.SetBool("isShielding", true);
-            movement.SetRunSpeed(movement.GetRunSpeed()/5);
+            if(Input.GetMouseButton(1))
+            {
+                movement.animator.SetBool("isShielding", true);
+            }
+
+            movement.SetRunSpeed(movement.GetRunSpeed()/3f);
+        }
+        else if (Input.GetMouseButtonUp(1) && controller.IsGrounded())
+        {
             StartCoroutine(Cooldown(cooldownTime));
+            movement.DisableShield();
         }
     }
 

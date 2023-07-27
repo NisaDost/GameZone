@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonMovement : MonoBehaviour
+public class Skeleton : MonoBehaviour
 {
     public CharacterController2D controller;
 
@@ -16,6 +16,7 @@ public class SkeletonMovement : MonoBehaviour
     public float idleTime = 2f;
     private float attackRange = 0.8f;
     public float detectRange = 6f;
+    public int damage = 8;
     
     private bool isMovingForward;
     private bool isWaiting = false;
@@ -66,10 +67,9 @@ public class SkeletonMovement : MonoBehaviour
             Vector3 direction = new Vector3(player.position.x - transform.position.x, 0f, 0f).normalized;
             transform.Translate(direction * moveAmount);
         }
-        else if (playerDistanceX < attackRange)
+        else if (playerDistanceX <= attackRange)
         {
             // Player is within attack range, stop moving and trigger the attack animation
-            animator.SetBool("isRunning", false);
             animator.SetTrigger("Attack");
         }
 

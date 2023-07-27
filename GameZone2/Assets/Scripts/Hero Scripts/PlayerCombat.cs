@@ -7,9 +7,9 @@ public class PlayerCombat : MonoBehaviour
     public Animator animator;
     public PlayerMovement movement;
     public CharacterController2D controller;
+    public Skeleton skeleton;
     public MouseClickTimer clickdiff;
     
-
     public int health = 100;
     private int attackCounter = 0;
     private float timeDuration = 3f;
@@ -46,7 +46,7 @@ public class PlayerCombat : MonoBehaviour
         }
 
     }
- #region attack fonk yiit artıık ssuuuusss
+ #region attack fonk Yigit artıık ssuuuusss
 
     private void Attack1()
     {
@@ -90,18 +90,22 @@ public class PlayerCombat : MonoBehaviour
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Skeleton") && !animator.GetBool("isShielding"))
         {
-            if(health > 10)
+            TakeDamage(skeleton.damage);
+            Debug.Log("Health: " + health);
+            if (health <= 0)
             {
-                health -= 25;
-                Debug.Log("Health: " + health);
-            }
-            else if(health == 0) 
-            {
-                Debug.Log("Geberdin");
+                animator.SetBool("isDead", true);
+                DeadMovement();
                 health = 0;
             }
-        } 
+        }
+    }
+
+    public int TakeDamage(int damage)
+    {
+        health -= damage;
+        return health;
     }
 }

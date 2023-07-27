@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &241041982638548603
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2943113690161753065}
+  m_Layer: 0
+  m_Name: Shield
+  m_TagString: Shield
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2943113690161753065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 241041982638548603}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.8919177, y: 0.10432631, z: -0.9545672}
+  m_LocalScale: {x: 0.125, y: 0.125, z: 0.125}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2062588915536288791}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2062588915536288788
 GameObject:
   m_ObjectHideFlags: 0
@@ -15,6 +46,7 @@ GameObject:
   - component: {fileID: 2650468426261265418}
   - component: {fileID: 2585227087310643673}
   - component: {fileID: 3784363126492658711}
+  - component: {fileID: 5398412926720858467}
   - component: {fileID: 2062588915536289002}
   - component: {fileID: 2062588915536289003}
   m_Layer: 6
@@ -39,6 +71,7 @@ Transform:
   - {fileID: 3959396553862893541}
   - {fileID: 4786527724022428}
   - {fileID: 4189548151623988324}
+  - {fileID: 2943113690161753065}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -182,6 +215,7 @@ MonoBehaviour:
   animator: {fileID: 2062588915536288789}
   movement: {fileID: 2650468426261265418}
   controller: {fileID: 2062588915536289001}
+  skeleton: {fileID: 0}
   clickdiff: {fileID: 3784363126492658711}
   health: 100
 --- !u!114 &3784363126492658711
@@ -197,6 +231,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeDifference: 0
+--- !u!114 &5398412926720858467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2062588915536288788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 231a257824849904ebf3d2d31e391a34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 2650468426261265418}
+  controller: {fileID: 2062588915536289001}
+  objectToFollow: {fileID: 2062588915536288791}
+  cooldownTime: 4
+  inCooldown: 0
 --- !u!50 &2062588915536289002
 Rigidbody2D:
   serializedVersion: 4

@@ -13,7 +13,11 @@ public class PlayerCombat : MonoBehaviour
     public int health = 100;
     private int attackCounter = 0;
     private float timeDuration = 3f;
-    
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     void FixedUpdate()
     {
         if(health == 0)
@@ -22,65 +26,73 @@ public class PlayerCombat : MonoBehaviour
             animator.SetBool("isDead", true);
         }
 
-        if (Input.GetMouseButtonDown(0) && controller.isDead() == false)
+        if(Input.GetMouseButtonDown(0) && !controller.isDead())
         {
-            if (attackCounter == 0 )
-            {
-                Attack1();
-                attackCounter = 1;
-            }
-            else if (attackCounter == 1 && clickdiff.timeDifference <= timeDuration)
-            {   
-                Attack2();
-                attackCounter = 2;
-            }
-            else if (attackCounter == 2 && clickdiff.timeDifference <= timeDuration)
-            {
-                Attack3();
-                attackCounter = 0;
-            }
-            else{
-                Attack1();
-                attackCounter = 0;
-            }
+            animator.SetInteger("AttackNo", Random.Range(0, 3));
+            animator.SetTrigger("Attack");
         }
-
+        
+        #region attack combo
+        //if (Input.GetMouseButtonDown(0) && controller.isDead() == false)
+        //{
+        //    if (attackCounter == 0 )
+        //    {
+        //        Attack1();
+        //        attackCounter = 1;
+        //    }
+        //    else if (attackCounter == 1 && clickdiff.timeDifference <= timeDuration)
+        //    {   
+        //        Attack2();
+        //        attackCounter = 2;
+        //    }
+        //    else if (attackCounter == 2 && clickdiff.timeDifference <= timeDuration)
+        //    {
+        //        Attack3();
+        //        attackCounter = 0;
+        //    }
+        //    else{
+        //        Attack1();
+        //        attackCounter = 0;
+        //    }
+        //}
+        #endregion
     }
- #region attack fonk Yigit artıık ssuuuusss
+    #region attack fonksiyon
 
-    private void Attack1()
-    {
-        animator.SetBool("Attack1", true);
-        animator.SetInteger("attackCount", attackCounter);
-    }
+    //private void Attack1()
+    //{
+    //    animator.SetBool("Attack1", true);
+    //    animator.SetInteger("attackCount", attackCounter);
+    //}
 
-    private void Attack2()
-    {
-        animator.SetBool("Attack2", true);
-        animator.SetInteger("attackCount", attackCounter);
-    }
+    //private void Attack2()
+    //{
+    //    animator.SetBool("Attack2", true);
+    //    animator.SetInteger("attackCount", attackCounter);
+    //}
  
-    private void Attack3()
-    {
-        animator.SetBool("Attack3", true);
-        animator.SetInteger("attackCount", attackCounter);
-    }
+    //private void Attack3()
+    //{
+    //    animator.SetBool("Attack3", true);
+    //    animator.SetInteger("attackCount", attackCounter);
+    //}
  
-    private void FinishAttack1()
-    {
-        animator.SetBool("Attack1", false);
-    }
+    //private void FinishAttack1()
+    //{
+    //    animator.SetBool("Attack1", false);
+    //}
    
-    private void FinishAttack2()
-    {
-        animator.SetBool("Attack2", false);
-    }
+    //private void FinishAttack2()
+    //{
+    //    animator.SetBool("Attack2", false);
+    //}
    
-    private void FinishAttack3()
-    {
-        animator.SetBool("Attack3", false);
-    }
+    //private void FinishAttack3()
+    //{
+    //    animator.SetBool("Attack3", false);
+    //}
 #endregion 
+
 
 
     public void DeadMovement()

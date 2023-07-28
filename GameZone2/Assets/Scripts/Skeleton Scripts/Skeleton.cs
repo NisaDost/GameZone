@@ -5,37 +5,48 @@ using UnityEngine;
 public class Skeleton : MonoBehaviour
 {
     public CharacterController2D controller;
+    public PlayerCombat playerCombat;
 
     public Transform pointLeft;
     public Transform pointRight;
     public Transform player;
     private Transform currentWaypoint;
     private Animator animator;
+    private Rigidbody2D rb;
 
     public float speed = 2f;
     public float idleTime = 2f;
     private float attackRange = 0.8f;
-    public float detectRange = 6f;
+    public float detectRangeX = 6f;
+    public float detectRangeY = 2f;
+    
     public int damage = 8;
+    public int mobHealth = 30;
     
     private bool isMovingForward;
     private bool isWaiting = false;
+    private bool isDead = false;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         currentWaypoint = pointRight;
         animator.SetBool("isRunning", true);
+        Debug.Log(transform.position.y + detectRangeY);
     }
 
     private void Update()
     {
-        if (player.position.x > transform.position.x - detectRange && player.position.x < transform.position.x + detectRange && controller.isDead() == false)
+        if (player.position.x > transform.position.x - detectRangeX &&
+            player.position.x < transform.position.x + detectRangeX && 
+            player.position.y < transform.position.y + detectRangeY &&
+            controller.isDead() == false && !isDead)
         {
             Chase();
         }
 
-        else if (!isWaiting)
+        else if (!isWaiting && !isDead)
         {
             Vector3 direction = (currentWaypoint.position - transform.position).normalized;
 
@@ -61,25 +72,42 @@ public class Skeleton : MonoBehaviour
         float playerDistanceX = Mathf.Abs(player.position.x - transform.position.x);
         float moveAmount = speed * Time.deltaTime;
 
-        if (playerDistanceX > attackRange )
+        if (playerDistanceX > attackRange)
         {
-            // Move towards the player only if the player is not within attack range
-            Vector3 direction = new Vector3(player.position.x - transform.position.x, 0f, 0f).normalized;
-            transform.Translate(direction * moveAmount);
+            Vector2 targetPosition = new Vector2(player.position.x, rb.position.y);
+            Vector2 currentPosition = rb.position;
+            Vector2 direction = (targetPosition - currentPosition).normalized;
+
+            rb.MovePosition(currentPosition + (direction * moveAmount*2));
         }
         else if (playerDistanceX <= attackRange)
         {
-            // Player is within attack range, stop moving and trigger the attack animation
+
+            if (player.position.y > transform.position.y + 0.5f)
+            {
+                isWaiting = true;
+            }
             animator.SetTrigger("Attack");
         }
 
-        // Make sure to flip the skeleton if needed
         if (player.position.x > transform.position.x && transform.localScale.x < 0 || player.position.x < transform.position.x && transform.localScale.x > 0)
         {
             Flip();
         }
     }
-   
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.CompareTag("Weapon"))
+        {
+            mobHealth -= playerCombat.playerDamage;
+            Debug.Log("Mob Health: " + mobHealth);
+            if (mobHealth <= 0)
+            {
+                mobHealth = 0;
+                animator.SetBool("isDead", true);
+                isDead = true;
+            }
+        }
+    }
     IEnumerator IdleAndSwitchWaypoint()
     {
         isWaiting = true;

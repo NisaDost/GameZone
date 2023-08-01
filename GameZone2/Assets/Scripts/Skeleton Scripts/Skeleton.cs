@@ -19,7 +19,9 @@ public class Skeleton : MonoBehaviour
     private float attackRange = 0.8f;
     public float detectRangeX = 6f;
     public float detectRangeY = 2f;
-    
+    private float cooldown = 2f;
+    private float lastUsedTime = 0f;
+
     public int damage = 8;
     public int mobHealth = 30;
     
@@ -33,7 +35,6 @@ public class Skeleton : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         currentWaypoint = pointRight;
         animator.SetBool("isRunning", true);
-        Debug.Log(transform.position.y + detectRangeY);
     }
 
     private void Update()
@@ -74,11 +75,11 @@ public class Skeleton : MonoBehaviour
 
         if (playerDistanceX > attackRange)
         {
-            Vector2 targetPosition = new Vector2(player.position.x, rb.position.y);
+            Vector2 targetPosition = new(player.position.x, rb.position.y);
             Vector2 currentPosition = rb.position;
             Vector2 direction = (targetPosition - currentPosition).normalized;
 
-            rb.MovePosition(currentPosition + (direction * moveAmount*2));
+            rb.MovePosition(currentPosition + (4 * moveAmount * direction));
         }
         else if (playerDistanceX <= attackRange)
         {
@@ -87,25 +88,12 @@ public class Skeleton : MonoBehaviour
             {
                 isWaiting = true;
             }
-            animator.SetTrigger("Attack");
+            AttackMechanic();
         }
 
         if (player.position.x > transform.position.x && transform.localScale.x < 0 || player.position.x < transform.position.x && transform.localScale.x > 0)
         {
             Flip();
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Weapon"))
-        {
-            mobHealth -= playerCombat.playerDamage;
-            Debug.Log("Mob Health: " + mobHealth);
-            if (mobHealth <= 0)
-            {
-                mobHealth = 0;
-                animator.SetBool("isDead", true);
-                isDead = true;
-            }
         }
     }
     IEnumerator IdleAndSwitchWaypoint()
@@ -117,8 +105,39 @@ public class Skeleton : MonoBehaviour
         SwitchWaypoint();
         isWaiting = false;
     }
-
-   void SwitchWaypoint()
+    private void OnTriggerEnter2D(Collider2D other) 
+    {
+        if (other.gameObject.CompareTag("Weapon"))
+        {
+            mobHealth -= playerCombat.playerDamage;
+            animator.SetTrigger("Hit");
+            lastUsedTime = Time.time;
+            Debug.Log("Mob Health: " + mobHealth);
+            if (mobHealth <= 0)
+            {
+                animator.SetBool("isDead", true);
+                isDead = true;
+                mobHealth = 0;
+            }
+        }
+    }
+    public void AttackMechanic()
+    {
+        if (Time.time >= lastUsedTime + cooldown)
+        {
+            animator.SetTrigger("Attack");
+            lastUsedTime = Time.time;
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
+    }
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+    void SwitchWaypoint()
     {
         if (isMovingForward)
         {            

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Weapon
   - Skeleton
+  - SkeletonWeapon
   layers:
   - Default
   - TransparentFX

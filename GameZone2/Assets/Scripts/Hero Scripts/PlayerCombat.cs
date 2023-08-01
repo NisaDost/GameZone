@@ -10,6 +10,7 @@ public class PlayerCombat : MonoBehaviour
     public Skeleton skeleton;
     public int health = 100;
     public int playerDamage = 10;
+    public bool isTakingDamage = false;
 
     private void Start()
     {
@@ -37,8 +38,9 @@ public class PlayerCombat : MonoBehaviour
     }
     public void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("Skeleton") && !animator.GetBool("isShielding"))
+        if (collider.gameObject.CompareTag("SkeletonWeapon") && !animator.GetBool("isShielding") && !isTakingDamage)
         {
+            isTakingDamage = true;
             TakeDamage(skeleton.damage);
             Debug.Log("Health: " + health);
             if (health <= 0)
@@ -47,7 +49,13 @@ public class PlayerCombat : MonoBehaviour
                 DeadMovement();
                 health = 0;
             }
+            StartCoroutine(ResetDamageFlag());
         }
+    }
+    private IEnumerator ResetDamageFlag()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isTakingDamage = false;
     }
     public int TakeDamage(int damage)
     {

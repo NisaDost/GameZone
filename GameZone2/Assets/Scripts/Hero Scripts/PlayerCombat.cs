@@ -8,6 +8,7 @@ public class PlayerCombat : MonoBehaviour
     public PlayerMovement movement;
     public CharacterController2D controller;
     public Skeleton skeleton;
+    public Projectile projectile;
     public int health = 100;
     public int playerDamage = 10;
     public bool isTakingDamage = false;
@@ -36,12 +37,28 @@ public class PlayerCombat : MonoBehaviour
         controller.setDead(true);
         movement.SetRunSpeed(0f);
     }
-    public void OnTriggerEnter2D(Collider2D collider)
+    public void OnTriggerEnter2D(Collider2D Skeleton)
     {
-        if (collider.gameObject.CompareTag("SkeletonWeapon") && !animator.GetBool("isShielding") && !isTakingDamage)
+        if (Skeleton.gameObject.CompareTag("SkeletonWeapon") && !animator.GetBool("isShielding") && !isTakingDamage)
         {
             isTakingDamage = true;
             TakeDamage(skeleton.damage);
+            Debug.Log("Health: " + health);
+            if (health <= 0)
+            {
+                animator.SetBool("isDead", true);
+                DeadMovement();
+                health = 0;
+            }
+            StartCoroutine(ResetDamageFlag());
+        }
+    }
+    public void OnTriggerEnter2D(Collider Mushroom)
+    {
+        if(Mushroom.gameObject.CompareTag("MushroomPojectile") && !animator.GetBool("isShielding") && !isTakingDamage)
+        {
+            isTakingDamage = true;
+            TakeDamage(projectile.damage);
             Debug.Log("Health: " + health);
             if (health <= 0)
             {

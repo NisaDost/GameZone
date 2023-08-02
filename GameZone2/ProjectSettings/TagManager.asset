@@ -10,6 +10,8 @@ TagManager:
   - Weapon
   - Skeleton
   - SkeletonWeapon
+  - Mushroom
+  - MushroomProjectile
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - Player
   - skeleton
   - Shield
-  - 
+  - Mushroom
   - 
   - 
   - 

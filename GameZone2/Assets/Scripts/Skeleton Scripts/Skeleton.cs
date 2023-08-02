@@ -22,7 +22,7 @@ public class Skeleton : MonoBehaviour
     private float cooldown = 2f;
     private float lastUsedTime = 0f;
 
-    public int damage = 8;
+    public int damage = 6;
     public int mobHealth = 30;
     
     private bool isMovingForward;

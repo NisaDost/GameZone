@@ -215,7 +215,10 @@ MonoBehaviour:
   movement: {fileID: 2650468426261265418}
   controller: {fileID: 2062588915536289001}
   skeleton: {fileID: 0}
+  projectile: {fileID: 0}
   health: 100
+  playerDamage: 10
+  isTakingDamage: 0
 --- !u!114 &5398412926720858467
 MonoBehaviour:
   m_ObjectHideFlags: 0

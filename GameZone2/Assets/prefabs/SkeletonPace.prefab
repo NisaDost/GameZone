@@ -249,13 +249,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
+  playerCombat: {fileID: 0}
   pointLeft: {fileID: 5507685276329567633}
   pointRight: {fileID: 5507685274541930106}
   player: {fileID: 0}
   speed: 2
   idleTime: 2
-  detectRange: 6
-  damage: 8
+  detectRangeX: 6
+  detectRangeY: 2
+  damage: 6
+  mobHealth: 30
 --- !u!1 &5507685276329567726
 GameObject:
   m_ObjectHideFlags: 0

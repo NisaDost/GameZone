@@ -79,7 +79,7 @@ public class Skeleton : MonoBehaviour
             Vector2 currentPosition = rb.position;
             Vector2 direction = (targetPosition - currentPosition).normalized;
 
-            rb.MovePosition(currentPosition + (4 * moveAmount * direction));
+            rb.MovePosition(currentPosition + (3 * moveAmount * direction));
         }
         else if (playerDistanceX <= attackRange)
         {
@@ -105,13 +105,15 @@ public class Skeleton : MonoBehaviour
         SwitchWaypoint();
         isWaiting = false;
     }
+    //iskelet sadece skeletonattack animasyonu çalıştığı zaman hasar alabiliyor
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (other.gameObject.CompareTag("Weapon"))
         {
+            Debug.Log(gameObject.name + " was hit by " + other.gameObject.name);
             mobHealth -= playerCombat.playerDamage;
             animator.SetTrigger("Hit");
-            lastUsedTime = Time.time;
+            //lastUsedTime = Time.time;
             Debug.Log("Mob Health: " + mobHealth);
             if (mobHealth <= 0)
             {
